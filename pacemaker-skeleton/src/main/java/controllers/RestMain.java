@@ -3,13 +3,13 @@ package controllers;
 //---------------------------------------------------------------------------
 //This class:
 //  1. Declares and starts the Javalin server listening on local host 7000 (i.e. app).
-//  2. Starts our PacemakerRestService (i.e. service). 
-//  3. Finally, defines a series of end-points on the server, for our service.  
+//  2. Starts our PacemakerRestService (i.e. service).
+//  3. Finally, defines a series of end-points on the server, for our service.
 //     Each end point contains the URL mapped to the service method call.  The
 //     endpoints are handled in the order they are defined in.
 //
 //---------------------------------------------------------------------------
-
+//
 import io.javalin.Javalin;
 
 public class RestMain {
