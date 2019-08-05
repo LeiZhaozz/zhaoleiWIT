@@ -17,6 +17,7 @@ public class Activity implements Serializable {
 
   public List<Location> route = new ArrayList<>();
 
+
   public Activity() {
   }
 
@@ -43,8 +44,29 @@ public class Activity implements Serializable {
     return Double.toString(distance);
   }
 
+
   public String getRoute() {
     return route.toString();
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
+  }
+
+  public void setDistance(double distance) {
+    this.distance = distance;
+  }
+
+  public void setRoute(List<Location> route) {
+    this.route = route;
   }
 
   @Override

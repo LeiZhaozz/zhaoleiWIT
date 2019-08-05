@@ -2,6 +2,8 @@ package models;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.google.common.base.Objects;
@@ -12,6 +14,7 @@ public class Activity implements Serializable {
   public String type;
   public String location;
   public double distance;
+  public List<Location> route = new ArrayList<>();
 
   public Activity() {
   }
@@ -36,6 +39,14 @@ public class Activity implements Serializable {
 
   public String getDistance() {
     return Double.toString(distance);
+  }
+
+  public List<Location> getRoute() {
+    return route;
+  }
+
+  public void setRoute(List<Location> route) {
+    this.route = route;
   }
 
   @Override

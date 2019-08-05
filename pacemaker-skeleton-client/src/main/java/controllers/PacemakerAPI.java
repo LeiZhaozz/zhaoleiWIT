@@ -62,7 +62,7 @@ interface PacemakerInterface
 	Call<Location> addLocation(@Path("id") String id, @Path("activityId") String activityId, @Body Location location);
 
 	@DELETE("/users")
-	Call<User> deleteUsers();
+    Call<String> deleteUsers();
 
 	@DELETE("/users/{id}")
 	Call<User> deleteUser(@Path("id") String id);
@@ -75,6 +75,24 @@ interface PacemakerInterface
 
 	@GET("/users/{id}/activities/{activityId}/locations")
 	Call<List<Location>> getLocations(@Path("id") String id, @Path("activityId") String activityId);
+
+    /**
+     * login by server
+     *
+     * @param User
+     * @return
+     */
+    @POST("/users/login")
+    Call<User> userslogin(@Body User User);
+
+    @GET("/users/{id}/emailFriend/{emailFriend}/addFriend")
+    Call<String> addFriend(@Path("id") String id, @Path("emailFriend") String emailFriend);
+
+    @GET("/users/{id}/listFriend")
+    Call<List<String>> listFriend(@Path("id") String id);
+
+    @GET("/users/{email}/friendActivityReport")
+    Call<List<Activity>> friendActivityReport(@Path("email") String email);
 }
 
 
@@ -136,7 +154,7 @@ public class PacemakerAPI {
 		try {
 			Call<Activity> call = pacemakerInterface.addActivity(id, new Activity(type, location, distance));
 			Response<Activity> response = call.execute();
-			returnedActivity = response.body();    
+            returnedActivity = response.body();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -202,8 +220,8 @@ public class PacemakerAPI {
 	}
 
 	public void deleteUsers() {
-		try {
-			Call<User> call = pacemakerInterface.deleteUsers();
+        try {
+            Call<String> call = pacemakerInterface.deleteUsers();
 			call.execute();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -222,15 +240,63 @@ public class PacemakerAPI {
 		return user;
 	}
 
-	public List<Location> getLocations(String id, String activityId) {
-		List<Location> locations = null;
-		try {
-			Call<List<Location>> call = pacemakerInterface.getLocations(id, activityId);
-			Response<List<Location>> response = call.execute();
-			locations = response.body();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return locations;
-	}
+    public List<Location> getLocations(String id, String activityId) {
+        List<Location> locations = null;
+        try {
+            Call<List<Location>> call = pacemakerInterface.getLocations(id, activityId);
+            Response<List<Location>> response = call.execute();
+            locations = response.body();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return locations;
+    }
+
+    public User userslogin(User user) {
+        try {
+            Call<User> call = pacemakerInterface.userslogin(user);
+            Response<User> response = call.execute();
+            User result = response.body();
+            return result;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public String addFriend(String id, String emailFriend) {
+        try {
+            Call<String> call = pacemakerInterface.addFriend(id, emailFriend);
+            Response<String> response = call.execute();
+            String result = response.body();
+            return result;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public List<String> listFriend(String id) {
+        try {
+            Call<List<String>> call = pacemakerInterface.listFriend(id);
+            Response<List<String>> response = call.execute();
+            List<String> result = response.body();
+            return result;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public List<Activity> friendActivityReport(String email) {
+        try {
+            Call<List<Activity>> call = pacemakerInterface.friendActivityReport(email);
+            Response<List<Activity>> response = call.execute();
+            List<Activity> result = response.body();
+            return result;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import models.Activity;
 import models.User;
+import org.apache.commons.lang3.StringUtils;
 import parsers.AsciiTableParser;
 import parsers.Parser;
 
@@ -17,7 +18,7 @@ public class PacemakerConsoleService {
 
 	//start a retrofit localhost server on port 7000.
 	private PacemakerAPI paceApi = new PacemakerAPI("http://localhost:7000");
-	private Parser console = new AsciiTableParser();
+    private AsciiTableParser console = new AsciiTableParser();
 	private User loggedInUser = null;
 
 	public PacemakerConsoleService() {
@@ -26,9 +27,9 @@ public class PacemakerConsoleService {
 	// Starter Commands
 
 	@Command(description = "Register: Create an account for a new user")
-	public void register(@Param(name = "first name") String firstName,
-			@Param(name = "last name") String lastName,
-			@Param(name = "email") String email, @Param(name = "password") String password) {
+    public void registerUser(@Param(name = "first name") String firstName,
+                             @Param(name = "last name") String lastName,
+                             @Param(name = "email") String email, @Param(name = "password") String password) {
 		console.renderUser(paceApi.createUser(firstName, lastName, email, password));
 	}
 
@@ -45,16 +46,15 @@ public class PacemakerConsoleService {
 	@Command(description = "Login: Log in a registered user in to pacemaker")
 	public void login(@Param(name = "email") String email,
 			@Param(name = "password") String password) {
-		Optional<User> user = Optional.fromNullable(paceApi.getUserByEmail(email));
-		if (user.isPresent()) {
-			if (user.get().password.equals(password)) {
-				loggedInUser = user.get();
-				console.println("Logged in " + loggedInUser.email);
-				console.println("ok");
-			} else {
-				console.println("Error on login");
-			}
-		}
+        User user = new User(email, password);
+        User result = paceApi.userslogin(user);
+        if (result != null) {
+            console.renderUser(result);
+            loggedInUser = result;
+        } else {
+            console.println("login  failure");
+        }
+
 	}
 
 	@Command(description = "Logout: Logout current user")
@@ -131,21 +131,27 @@ public class PacemakerConsoleService {
 	public void listActivityLocations(@Param(name = "activity-id") String id) {
 		Optional<Activity> activity = Optional.fromNullable(paceApi.getActivity(loggedInUser.getId(), id));
 		if (activity.isPresent()) {
-			// console.renderLocations(activity.get().route);
+            console.renderLocations(activity.get().route);
 		}
 	}
 
 	@Command(description = "Follow Friend: Follow a specific friend")
 	public void follow(@Param(name = "email") String email) {
+        String result = paceApi.addFriend(loggedInUser.id, email);
+        console.println(result);
 	}
 
 	@Command(description = "List Friends: List all of the friends of the logged in user")
 	public void listFriends() {
-	}
+        Optional<List<String>> friends = Optional.fromNullable(paceApi.listFriend(loggedInUser.getId()));
+        console.renderFriends(friends.get());
+    }
 
 	@Command(description = "Friend Activity Report: List all activities of specific friend, sorted alphabetically by type)")
 	public void friendActivityReport(@Param(name = "email") String email) {
-	}
+        Optional<List<Activity>> activities = Optional.fromNullable(paceApi.friendActivityReport(email));
+        console.renderActivities(activities.get());
+    }
 
 	// Good Commands
 

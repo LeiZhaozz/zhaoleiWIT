@@ -110,4 +110,28 @@ public class PacemakerAPI {
 		User user = userIndex.remove(id);
 		return emailIndex.remove(user.email);
 	}
+
+    public String addFriend(String id, String emailFriend) {
+        Optional<User> user = Optional.fromNullable(userIndex.get(id));
+        if (user.isPresent()) {
+            user.get().friends.add(emailFriend);
+        }
+        return emailFriend;
+    }
+
+    public List<String> listFriend(String id) {
+        Optional<User> user = Optional.fromNullable(userIndex.get(id));
+        if (user.isPresent()) {
+            return user.get().friends;
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Activity> getActivitiesByEmail(String email) {
+        Optional<User> user = Optional.fromNullable(emailIndex.get(email));
+        if (user.isPresent()) {
+            return listActivities(user.get().id, "type");
+        }
+        return new ArrayList<>();
+    }
 }

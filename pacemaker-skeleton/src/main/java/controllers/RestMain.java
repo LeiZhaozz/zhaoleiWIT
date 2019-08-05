@@ -16,8 +16,7 @@ public class RestMain {
 
 	public static void main(String[] args) throws Exception {
 		Javalin app = Javalin.create();
-		app.port(getAssignedPort());
-		app.start();
+        app.start(getAssignedPort());
 		PacemakerRestService service = new PacemakerRestService();
 		configRoutes(app, service);
 	}
@@ -38,10 +37,6 @@ public class RestMain {
 
 		app.post("/users", ctx -> {
 			service.createUser(ctx);
-		});
-
-		app.get("/users/:id", ctx -> {
-			service.listUser(ctx);
 		});
 
 		app.get("/users/:id/activities", ctx -> {
@@ -75,6 +70,25 @@ public class RestMain {
 		app.delete("/users/:id/activities", ctx -> {
 			service.deleteActivities(ctx);
 		});
+
+        app.post("/users/login", ctx -> {
+            service.userLogin(ctx);
+        });
+
+        app.get("/users/:id/emailFriend/:emailFriend/addFriend", ctx -> {
+            service.addFriend(ctx);
+        });
+
+        app.get("/users/:id/listFriend", ctx -> {
+            service.listFriend(ctx);
+        });
+
+        app.get("/users/:email/friendActivityReport", ctx -> {
+            service.getActivitiesByEmail(ctx);
+        });
+
+
+
 	}
 
 	private static int getAssignedPort() {

@@ -39,4 +39,6 @@ public class UserTest {
 		Collection<User> returnedUsers = pacemaker.getUsers();
 		assertEquals(users.size(), returnedUsers.size());
 	}
+
+
 }

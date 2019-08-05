@@ -7,9 +7,17 @@
     <artifactId>pacemaker</artifactId>
     <groupId>com.zhaoleiWIT</groupId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <modules>
         <module>pacemaker-skeleton</module>
         <module>pacemaker-skeleton-client</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
+    </dependencies>
 </project>

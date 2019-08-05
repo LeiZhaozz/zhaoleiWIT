@@ -84,4 +84,6 @@ public class ActivityTest {
 		assertEquals (locations.size(), returnedLocations.size());
 		assertEquals(locations, returnedLocations);
 	}
+
+
 }

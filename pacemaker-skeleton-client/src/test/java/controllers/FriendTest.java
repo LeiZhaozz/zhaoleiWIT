@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class FriendTest {
 
     @Before
     public void setup() {
-//        pacemaker.deleteUsers();
+        pacemaker.deleteUsers();
         homer = pacemaker.createUser(homer.firstname, homer.lastname, homer.email, homer.password);
     }
 
@@ -42,7 +43,22 @@ public class FriendTest {
         String emailFriend = "maggie@simpson.com";
         String result = pacemaker.addFriend(homer.id, emailFriend);
         List<String> friends = pacemaker.listFriend(homer.id);
+//        System.out.println(friends.get(0));
         assertEquals(emailFriend, friends.get(0));
 
     }
+
+    @Test
+    public void testFriendActivityReport() {
+        String emailFriend = homer.email;
+        Activity activity = new Activity("run", "fridge", 0.5);
+        Activity returnedActivity = pacemaker.createActivity(homer.id, activity.type, activity.location, activity.distance);
+        List<Activity> except = new ArrayList<>();
+        except.add(returnedActivity);
+        List<Activity> result = pacemaker.friendActivityReport(emailFriend);
+        assertEquals(except, result);
+
+    }
+
+
 }

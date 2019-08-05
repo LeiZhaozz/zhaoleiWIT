@@ -8,6 +8,7 @@ public class Location implements Serializable {
 
   public double longitude;
   public double latitude;
+    public String activeId;
 
   public Location() {
   }
@@ -25,8 +26,15 @@ public class Location implements Serializable {
     this.longitude = longitude;
   }
 
+    public String getActiveId() {
+        return activeId;
+    }
 
-  @Override
+    public void setActiveId(String activeId) {
+        this.activeId = activeId;
+    }
+
+    @Override
   public boolean equals(final Object obj) {
     if (obj instanceof Location) {
       final Location other = (Location) obj;

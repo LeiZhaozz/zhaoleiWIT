@@ -2,6 +2,7 @@ package parsers;
 
 import com.bethecoder.ascii_table.ASCIITable;
 import com.bethecoder.ascii_table.impl.CollectionASCIITableAware;
+import com.bethecoder.ascii_table.spec.IASCIITable;
 import com.bethecoder.ascii_table.spec.IASCIITableAware;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,9 +66,23 @@ public class AsciiTableParser extends Parser {
     if (locations != null) {
       if (!locations.isEmpty()) {
         IASCIITableAware asciiTableAware = new CollectionASCIITableAware<Location>(locations,
-            "id",
-            "latitude", "longitude");
+                "latitude", "longitude");
         System.out.println(ASCIITable.getInstance().getTable(asciiTableAware));
+      }
+      System.out.println("ok");
+    } else {
+      System.out.println("not found");
+    }
+  }
+
+
+  public void renderFriends(List<String> friends) {
+    if (friends != null) {
+      if (!friends.isEmpty()) {
+        friends.stream().forEach(friend -> {
+          System.out.println(friend);
+        });
+
       }
       System.out.println("ok");
     } else {

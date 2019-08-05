@@ -38,6 +38,11 @@ public class User implements Serializable {
     this.password = password;
   }
 
+  public User(String email, String password) {
+    this.email = email;
+    this.password = password;
+  }
+
   @Override
   public boolean equals(final Object obj) {
     if (obj instanceof User) {
